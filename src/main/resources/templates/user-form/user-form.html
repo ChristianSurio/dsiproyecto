@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-body">
                     
-                    <form class="form">
+                    <form class="form" th:object="${userForm}" th:action="@{/editUser}" method="POST">
                         
                         <div class="row"><!--Nombres-->
                             <div class="form-group mr-3">

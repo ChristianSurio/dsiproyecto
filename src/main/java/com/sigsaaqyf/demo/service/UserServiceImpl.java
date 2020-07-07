@@ -42,4 +42,25 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public User getUserById(Long id) throws Exception {
+        
+        return repository.findById(id).orElseThrow( () -> new Exception("usuario no encontrado"));
+    }
+
+    @Override
+    public User updateUser(User user) throws Exception {
+        User userFound = repository.findById(user.getId()).orElseThrow(() -> new Exception("no lo encontré man"));
+        //User userFound = getUserById(user.getId());
+        userFound.setId(user.getId());
+        userFound.setPrimerNombre(user.getPrimerNombre());
+        userFound.setSegundoNombre(user.getSegundoNombre());
+        userFound.setPrimerApellido(user.getPrimerApellido());
+        userFound.setSegundoApellido(user.getSegundoApellido());
+        userFound.setCarnet(user.getCarnet());
+        userFound.setEmail(user.getEmail());
+
+        return repository.save(userFound);
+    }
 }

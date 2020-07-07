@@ -54,7 +54,7 @@ public class User implements Serializable{
 	private String password;
 
 	@Transient
-	@NotBlank(message = "obligatorio")
+	//@NotBlank(message = "obligatorio")
 	private String confirmPassword;
 	
 //Relacion muchos a muchos entre usuario y rol
