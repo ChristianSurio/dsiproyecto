@@ -46,11 +46,12 @@ public class User implements Serializable{
 	private String carnet;
 
 	@Column
+	@NotBlank(message = "email obligatorio")
 	@Email(message = "no parece un correo")
 	private String email;
 
 	@Column
-	@NotBlank(message = "obligatorio")
+	@NotBlank(message = "password obligatorio")
 	private String password;
 
 	@Transient

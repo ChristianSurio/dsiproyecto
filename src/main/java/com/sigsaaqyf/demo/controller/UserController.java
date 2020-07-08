@@ -5,6 +5,7 @@ import com.sigsaaqyf.demo.service.UserService;
 import javax.validation.Valid;
 
 import com.sigsaaqyf.demo.entity.User;
+import com.sigsaaqyf.demo.repository.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    RoleRepository roleRepository;
 
     @GetMapping("/")
     public String index() {
@@ -36,6 +39,7 @@ public class UserController {
     @GetMapping("/userRegister")
     public String userForm(Model model) {
         model.addAttribute("userForm", new User());
+        model.addAttribute("roleList", roleRepository.findAll());
         return "user-form/user-register";
     }
 
@@ -43,6 +47,7 @@ public class UserController {
     public String userForm(@Valid @ModelAttribute("userForm") User user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("userForm", user);
+            model.addAttribute("roleList", roleRepository.findAll());
             return "user-form/user-register";
         } else {
             try {
@@ -50,6 +55,7 @@ public class UserController {
             } catch (Exception e) {
                 model.addAttribute("errorMessage",e.getMessage());
                 model.addAttribute("userForm", user);
+                model.addAttribute("roleList", roleRepository.findAll());
                 return "user-form/user-register";
             }
         }
@@ -61,7 +67,7 @@ public class UserController {
         User userToEdit = userService.getUserById(id);
         model.addAttribute("userForm",userToEdit);
         model.addAttribute("userEditMode", true);
-
+        model.addAttribute("roleList", roleRepository.findAll());
         return "user-form/user-register";
     }
 
@@ -70,6 +76,7 @@ public class UserController {
         if (result.hasErrors()) {
             model.addAttribute("userForm", userFrom);
             model.addAttribute("userEditMode", true);
+            model.addAttribute("roleList", roleRepository.findAll());
             return "user-form/user-register";
         }
         try {
@@ -80,6 +87,7 @@ public class UserController {
             model.addAttribute("errorMessage",e.getMessage());
             model.addAttribute("userForm", userFrom);
             model.addAttribute("userEditMode", true);
+            model.addAttribute("roleList", roleRepository.findAll());
             return "user-form/user-register";
         }
 

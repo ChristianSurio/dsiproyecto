@@ -72,14 +72,12 @@
                                 </div>
                             </div>
                         </div> 
-
-                       
                   
                         <div class="row"><!--Contraseña-->
                             <div class="col col-md-8">
                                 <div class="form-group row" >
                                     <div class="col-md-8 col-sm-7 pl-0">
-                                        <input type="password'" class="form-control form-control-sm" placeholder="Contraseña" id="pass" th:field="${userForm.password}" th:if="${userEditMode==null or userEditMode==false}">
+                                        <input type="password" class="form-control form-control-sm" placeholder="Contraseña" id="pass" th:field="${userForm.password}" th:if="${userEditMode==null or userEditMode==false}">
                                         <div class="alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
                                     </div>
 
@@ -90,6 +88,20 @@
                                 </div>
                             </div>
                         </div> 
+
+                        <div class="row"><!--Roles-->
+                            <div class="col col-md-8 col-sm-6">
+                                <div class="form-group row">
+                                    <label for="carnet" class="form-label col-md-4 pr-0 mb-0">Selecionar rol</label><br>
+                                    
+                                        <select class="form-control" th:field="${userForm.roles}">
+                                            <option th:each="r :${roleList}" th:value="${r.id}" th:text="${r.nombre}"></option>
+                                          </select>
+                                        <div class="alert-danger" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Name Error</div>
+                                     
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="alert-danger" th:if="${errorMessage}" th:text="${errorMessage}">Name Error</div>
