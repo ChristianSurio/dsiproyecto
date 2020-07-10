@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.sigsaaqyf.demo.entity.User;
 import com.sigsaaqyf.demo.repository.UserRepository;
-//import com.sigsaaqyf.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +59,7 @@ public class UserServiceImpl implements UserService {
         userFound.setSegundoApellido(user.getSegundoApellido());
         userFound.setCarnet(user.getCarnet());
         userFound.setEmail(user.getEmail());
+        userFound.setRoles(user.getRoles());
 
         return repository.save(userFound);
     }

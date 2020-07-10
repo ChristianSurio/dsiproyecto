@@ -4,6 +4,7 @@ import com.sigsaaqyf.demo.service.UserService;
 
 import javax.validation.Valid;
 
+import com.sigsaaqyf.demo.entity.Role;
 import com.sigsaaqyf.demo.entity.User;
 import com.sigsaaqyf.demo.repository.RoleRepository;
 
@@ -40,22 +41,29 @@ public class UserController {
     public String userForm(Model model) {
         model.addAttribute("userForm", new User());
         model.addAttribute("roleList", roleRepository.findAll());
+        model.addAttribute("myRole", new Role());
         return "user-form/user-register";
     }
 
     @PostMapping("/userRegister")
-    public String userForm(@Valid @ModelAttribute("userForm") User user, BindingResult result, ModelMap model) {
+    public String userForm(@Valid   @ModelAttribute("userForm") User user, BindingResult result, ModelMap model, 
+                                    @ModelAttribute("myRole")Role myRole) {
+        
         if (result.hasErrors()) {
             model.addAttribute("userForm", user);
             model.addAttribute("roleList", roleRepository.findAll());
+            model.addAttribute("myRole", new Role());
             return "user-form/user-register";
         } else {
             try {
+                user.setId(null);
+                user.setRoles(roleRepository.findById( myRole.getId() ) );
                 userService.createUser(user);
             } catch (Exception e) {
                 model.addAttribute("errorMessage",e.getMessage());
                 model.addAttribute("userForm", user);
                 model.addAttribute("roleList", roleRepository.findAll());
+                model.addAttribute("myRole", new Role());
                 return "user-form/user-register";
             }
         }
@@ -64,22 +72,27 @@ public class UserController {
 
     @GetMapping("/userEdit/{id}")
     public String editUser(Model model, @PathVariable(name = "id")Long id) throws Exception {
+        
         User userToEdit = userService.getUserById(id);
         model.addAttribute("userForm",userToEdit);
         model.addAttribute("userEditMode", true);
         model.addAttribute("roleList", roleRepository.findAll());
+        model.addAttribute("myRole", new Role());
         return "user-form/user-register";
     }
 
     @PostMapping("/userEdit")
-    public String editUser(@Valid @ModelAttribute("userForm")User userFrom, BindingResult result, ModelMap model) {
+    public String editUser(@Valid @ModelAttribute("userForm")User userFrom, BindingResult result, ModelMap model,
+                                    @ModelAttribute("myRole")Role myRole) {
         if (result.hasErrors()) {
             model.addAttribute("userForm", userFrom);
             model.addAttribute("userEditMode", true);
             model.addAttribute("roleList", roleRepository.findAll());
+            model.addAttribute("myRole", new Role());
             return "user-form/user-register";
         }
         try {
+            userFrom.setRoles(roleRepository.findById( myRole.getId() ) );
             userService.updateUser(userFrom);
             model.addAttribute("userList", userService.getAllUsers());
             return "user-form/user-list";

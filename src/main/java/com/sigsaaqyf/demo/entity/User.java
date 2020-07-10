@@ -1,7 +1,7 @@
 package com.sigsaaqyf.demo.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -59,12 +57,12 @@ public class User implements Serializable{
 	private String confirmPassword;
 	
 //Relacion muchos a muchos entre usuario y rol
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
+	@ManyToOne(fetch = FetchType.LAZY)
+	/*@JoinTable(
 		name = "user_role",
 		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+		inverseJoinColumns = @JoinColumn(name = "role_id"))*/
+	private Role roles;
 
 	//getters y setters..........................
 	public Long getId() {
@@ -115,12 +113,20 @@ public class User implements Serializable{
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Set<Role> getRoles() {
+	public Role getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Role roles) {
 		this.roles = roles;
+	}
+	public void setRoles(Optional<Role> role){
+		try {
+			this.roles=role.get();
+		} catch (Exception e) {
+			System.out.println("No existe");
+		}
+		
 	}
 
 	public String getPrimerApellido() {

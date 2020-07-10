@@ -1,6 +1,7 @@
 package com.sigsaaqyf.demo.entity;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,6 +56,15 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return "role [descripcion=" + descripcion + ", id=" + id + ", nombre=" + nombre + "]";
+    }
+
+    public Role(){
+        
+    }
+    public Role(Optional<Role> role) {
+        this.id = role.get().getId();
+        this.nombre = role.get().getNombre();
+        this.descripcion = role.get().getDescripcion();
     }
 
     
