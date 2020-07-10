@@ -25,7 +25,7 @@
                 <div class="card-body">
                     
                     <form class="form" th:object="${userForm}" th:action="${userEditMode}? @{/userEdit} : @{/userRegister}" method="POST">
-                        <input type="hidden" th:if="${userEditMode}" th:field="${userForm.id}" th:value="${userForm.id}">
+                        <input type="hidden" th:if="${userEditMode==null or userEditMode==false}" th:field="${userForm.id}">
                         <!--<input type="hidden" th:field="${userForm.roles}" -->
                         <input type="hidden" th:if="${userEditMode}" th:value="xxxx" th:field="${userForm.password}" >
                         <input type="hidden" th:if="${userEditMode}" th:value="xxxx" th:field="${userForm.confirmPassword}">

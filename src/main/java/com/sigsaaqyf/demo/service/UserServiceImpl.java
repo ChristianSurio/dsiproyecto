@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) throws Exception {
         User userFound = repository.findById(user.getId()).orElseThrow(() -> new Exception("no lo encontré man"));
         //User userFound = getUserById(user.getId());
-        userFound.setId(user.getId());
+        //userFound.setId(user.getId());
         userFound.setPrimerNombre(user.getPrimerNombre());
         userFound.setSegundoNombre(user.getSegundoNombre());
         userFound.setPrimerApellido(user.getPrimerApellido());
