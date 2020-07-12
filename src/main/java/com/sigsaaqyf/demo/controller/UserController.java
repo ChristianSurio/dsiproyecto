@@ -56,8 +56,8 @@ public class UserController {
             return "user-form/user-register";
         } else {
             try {
-                user.setId(null);
-                user.setRoles(roleRepository.findById( myRole.getId() ) );
+                //user.setId(null);
+                user.setRoles(roleRepository.findById( user.getRoles().getId()) );
                 userService.createUser(user);
             } catch (Exception e) {
                 model.addAttribute("errorMessage",e.getMessage());
@@ -92,7 +92,8 @@ public class UserController {
             return "user-form/user-register";
         }
         try {
-            userFrom.setRoles(roleRepository.findById( myRole.getId() ) );
+            userFrom.setRoles(roleRepository.findById( userFrom.getRoles().getId()) );
+            //userFrom.setRoles(roleRepository.findById( myRole.getId() ) );
             userService.updateUser(userFrom);
             model.addAttribute("userList", userService.getAllUsers());
             return "user-form/user-list";

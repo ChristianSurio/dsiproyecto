@@ -25,8 +25,8 @@
                 <div class="card-body">
                     
                     <form class="form" th:object="${userForm}" th:action="${userEditMode}? @{/userEdit} : @{/userRegister}" method="POST">
-                        <input type="hidden" th:if="${userEditMode==null or userEditMode==false}" th:field="${userForm.id}">
-                        <!--<input type="hidden" th:field="${userForm.roles}" -->
+                        <input type="hidden"  th:field="${userForm.id}" value="${userForm.id}">
+                        <!--<input type="hidden" th:field="${userForm.roles}" th:if="${userEditMode==null or userEditMode==false}"-->
                         <input type="hidden" th:if="${userEditMode}" th:value="xxxx" th:field="${userForm.password}" >
                         <input type="hidden" th:if="${userEditMode}" th:value="xxxx" th:field="${userForm.confirmPassword}">
                         <div class="row"><!--Nombres-->
@@ -95,7 +95,7 @@
                                 <div class="form-group row">
                                     <label for="carnet" class="form-label col-md-4 pr-0 mb-0">Selecionar rol</label><br>
                                     
-                                    <select class="form-control" th:field="${myRole.id}"> 
+                                    <select class="form-control" th:field="${userForm.roles.id}"> 
                                         <option value="0" text=" " selected="true"></option>
                                         <option th:each="r :${roleList}" th:value="${r.id}" th:text="${r.nombre}"></option>
                                     </select>
