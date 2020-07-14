@@ -71,5 +71,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Iterable<User> getAllActiveUsers() {
+        return repository.findAllByLocked(false);
+        
+    }
+
 
 }

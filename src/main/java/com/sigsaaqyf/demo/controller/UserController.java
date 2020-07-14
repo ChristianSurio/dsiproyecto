@@ -31,6 +31,12 @@ public class UserController {
         return "user-form/login";
     }
 
+    @GetMapping("/activeUserList")
+    public String activeUserList(Model model) {
+        model.addAttribute("userList", userService.getAllActiveUsers());
+        return "user-form/user-list";
+    }
+
     @GetMapping("/userList")
     public String userList(Model model) {
         model.addAttribute("userList", userService.getAllUsers());
@@ -57,6 +63,7 @@ public class UserController {
         } else {
             try {
                 //user.setId(null);
+                user.setLocked(false);
                 user.setRoles(roleRepository.findById( user.getRoles().getId()) );
                 userService.createUser(user);
             } catch (Exception e) {
@@ -115,6 +122,30 @@ public class UserController {
         }
         
         return userList(model);
+    }
+
+    @GetMapping("/lockUser/{id}")
+    public String lockUser(Model model, @PathVariable(name="id")Long id){
+        try {
+            User user = userService.getUserById(id);
+            user.setLocked(true);
+            userService.updateUser(user);
+        } catch (Exception e) {
+            model.addAttribute("listErrorMessage",e.getMessage());
+        }
+        return activeUserList(model);
+    }
+
+    @GetMapping("/unlockUser/{id}")
+    public String unlockUser(Model model, @PathVariable(name="id")Long id){
+        try {
+            User user = userService.getUserById(id);
+            user.setLocked(false);
+            userService.updateUser(user);
+        } catch (Exception e) {
+            model.addAttribute("listErrorMessage",e.getMessage());
+        }
+        return activeUserList(model);
     }
 }
 

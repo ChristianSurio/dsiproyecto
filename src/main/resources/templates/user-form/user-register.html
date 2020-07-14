@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Usuarios</title>
+        <title th:text="${userEditMode}? 'Editar Usuario': 'Registrar Usuario'">Usuarios</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -20,13 +20,15 @@
         <div class="container pt-4 pb-4">
             <div class="card col-sm-12 col-md-8 col-lg-6  pt-2">
                 <div class="card-header">
-                    <h4>Registro de Usuario</h4>
+                    <h4 th:text="${userEditMode}? 'Editar Usuario': 'Registrar Usuario'">Registro de Usuario</h4>
+                    <h5 th:text="${userEditMode}? ${userForm.roles.nombre}"></h5>
                 </div>
                 <div class="card-body">
                     
                     <form class="form" th:object="${userForm}" th:action="${userEditMode}? @{/userEdit} : @{/userRegister}" method="POST">
                         <input type="hidden"  th:field="${userForm.id}" value="${userForm.id}">
                         <!--<input type="hidden" th:field="${userForm.roles}" th:if="${userEditMode==null or userEditMode==false}"-->
+                        <input type="hidden" th:field="${userForm.locked}" value="${userEditMode}? ${userForm.locked} : '0'}">
                         <input type="hidden" th:if="${userEditMode}" th:value="xxxx" th:field="${userForm.password}" >
                         <input type="hidden" th:if="${userEditMode}" th:value="xxxx" th:field="${userForm.confirmPassword}">
                         <div class="row"><!--Nombres-->

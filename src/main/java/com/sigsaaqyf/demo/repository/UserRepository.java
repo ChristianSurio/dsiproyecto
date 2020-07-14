@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends CrudRepository<User, Long>{
     
     public Optional<User> findByCarnet(String carnet);
+    public Iterable<User> findAllByLocked(Boolean locked);
 }

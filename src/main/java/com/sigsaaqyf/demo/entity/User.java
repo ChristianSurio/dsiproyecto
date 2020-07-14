@@ -53,8 +53,10 @@ public class User implements Serializable{
 	private String password;
 
 	@Transient
-	//@NotBlank(message = "obligatorio")
 	private String confirmPassword;
+	
+	@Column(columnDefinition = "boolean default false")
+	private Boolean locked;
 	
 //Relacion muchos a muchos entre usuario y rol
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -154,6 +156,14 @@ public class User implements Serializable{
 	}
 
 	public User() {
+	}
+
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
 	}
 
 }
