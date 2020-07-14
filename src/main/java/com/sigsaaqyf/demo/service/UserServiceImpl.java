@@ -63,4 +63,13 @@ public class UserServiceImpl implements UserService {
 
         return repository.save(userFound);
     }
+
+    @Override
+    public void deleteUser(Long id) throws Exception {
+        User userFound = getUserById(id);
+        repository.delete(userFound);
+
+    }
+
+
 }

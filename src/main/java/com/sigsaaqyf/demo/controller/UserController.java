@@ -104,8 +104,17 @@ public class UserController {
             model.addAttribute("roleList", roleRepository.findAll());
             return "user-form/user-register";
         }
+    }
 
+    @GetMapping("/userDelete/{id}")
+    public String deleteUser(Model model, @PathVariable(name = "id")Long id) throws Exception{
+        try {
+            userService.deleteUser(id);
+        } catch (Exception e) {
+            model.addAttribute("listErrorMessage",e.getMessage());
+        }
         
+        return userList(model);
     }
 }
 

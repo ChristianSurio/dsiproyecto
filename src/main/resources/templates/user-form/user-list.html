@@ -23,7 +23,7 @@
             <div class="row col-12">
                 <a th:href="@{/userRegister}" class="btn btn-success"><i class='fas fa-user-plus'></i> Registrar nuevo</a>
             </div>
-            
+            <div class="alert-danger" th:if="${listErrorMessage}" th:text="${listErrorMessage}">Name Error</div>
             <table class="table col-10">
                 <thead> <!--------Encabezados de la tabla------->
                     <th>Id</th>
@@ -41,7 +41,7 @@
                         <td th:text="${user.carnet}"></td>
                         <td th:text="${user.email}"></td>
                         <td>
-                            <a href="" class="btn btn-danger"><i class='fas fa-trash'></i></a>
+                            <a th:href="@{'/userDelete/'+ ${user.id}}" class="btn btn-danger"><i class='fas fa-trash'></i></a>
                             <a th:href="@{'/userEdit/'+${user.id}}" class="btn btn-primary"><i class='fas fa-edit'></i></a>
                             <a href="" class="btn btn-warning"><i class='fas fa-user-times'></i></a>
                         </td>
