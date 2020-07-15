@@ -133,7 +133,7 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("listErrorMessage",e.getMessage());
         }
-        return activeUserList(model);
+        return userList(model);
     }
 
     @GetMapping("/unlockUser/{id}")
@@ -145,7 +145,7 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("listErrorMessage",e.getMessage());
         }
-        return activeUserList(model);
+        return userList(model);
     }
 }
 

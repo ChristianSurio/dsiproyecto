@@ -4,17 +4,21 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Usuarios</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <title>ListaUsuarios</title>       
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+        
+        
+        --> 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
 	    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    
     </head>
 
     <body>
@@ -41,26 +45,24 @@
                         <td th:text="${user.carnet}"></td>
                         <td th:text="${user.email}"></td>
                         <td>
-                            <a th:onclick="' javascript:confirmDelete(\'' + ${user.id} + '\'); ' " class="btn btn-danger"><i class='fas fa-trash'></i></a>
+                        <!--<a th:onclick="' javascript:confirmDelete(\'' + ${user.id} + '\'); ' " class="btn btn-danger"><i class='fas fa-trash'></i></a>
+                            -->
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class='fas fa-trash'></i></button>
                             <a th:href="@{'/userEdit/'+${user.id}}" class="btn btn-primary"><i class='fas fa-edit'></i></a>
-                            <a th:href="${user.locked}? @{'/unlockUser/'+${user.id}} : @{'/lockUser/'+${user.id}} " th:class="${user.locked}? 'btn btn-primary': 'btn btn-warning'"><i class='fas fa-user-times'></i></a>
+                            <button type="button" th:class="${user.locked}? 'btn btn-primary': 'btn btn-warning'" data-toggle="modal" data-target="#lockModal"><i th:class="${user.locked}? 'fa fa-user' : 'fas fa-user-times'"></i></button>
+                            
+                        <!--<a th:href="${user.locked}? @{'/unlockUser/'+${user.id}} : @{'/lockUser/'+${user.id}} " th:class="${user.locked}? 'btn btn-primary': 'btn btn-warning'"><i th:class="${user.locked}? 'fa fa-user' : 'fas fa-user-times'"></i></a>
+                            -->
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>      
+     <!----><div th:include="user-form/confirm-delete-modal.html" th:remove="tag"></div>
+
         
-        <div th:include="user-form/confirm-delete-modal.html" th:remove="tag"></div>
-        <script type="text/javascript">
-            function confirmDelete(id){
-                $('#deleteModal').modal('show');
-                $("#userIdHiddenInput").val(id);
-            }
-            
-            function deleteUser(){
-                var id = $("#userIdHiddenInput").val();
-                window.location = "deleteUser/"+id;
-            }
-            </script>
+     <script type="text/javascript" src="/js/jquery-3.2.1.slim.min.js"></script>
+     <script type="text/javascript" src="/js/popper.min.js"></script>
+     <script type="text/javascript" src="/js/bootstrap.min.js"></script>      
     </body>
 </html>
