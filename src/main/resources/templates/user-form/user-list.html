@@ -25,7 +25,7 @@
         <div class="container pt-4">
             <h2>Lista de Usuarios del sistema</h2>
             <div class="row col-12">
-                <a th:href="@{/userRegister}" class="btn btn-success"><i class='fas fa-user-plus'></i> Registrar nuevo</a>
+                <a th:href="@{/adminRegister}" class="btn btn-success"><i class='fas fa-user-plus'></i> Registrar nuevo</a>
             </div>
             <div class="alert-danger" th:if="${listErrorMessage}" th:text="${listErrorMessage}">Name Error</div>
             <table class="table col-10">
@@ -47,18 +47,54 @@
                         <td>
                         <!--<a th:onclick="' javascript:confirmDelete(\'' + ${user.id} + '\'); ' " class="btn btn-danger"><i class='fas fa-trash'></i></a>
                             -->
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class='fas fa-trash'></i></button>
+                            <button 
+                                type="button" 
+                                class="btn btn-danger" 
+                                data-toggle="modal" 
+                                data-target="#deleteModal"
+                                th:onclick="' javascript:confirmAction(\'' + ${user.id} + '\'); ' ">
+                                <i class='fas fa-trash'></i>
+                            </button>
                             <a th:href="@{'/userEdit/'+${user.id}}" class="btn btn-primary"><i class='fas fa-edit'></i></a>
-                            <button type="button" th:class="${user.locked}? 'btn btn-primary': 'btn btn-warning'" data-toggle="modal" data-target="#lockModal"><i th:class="${user.locked}? 'fa fa-user' : 'fas fa-user-times'"></i></button>
-                            
-                        <!--<a th:href="${user.locked}? @{'/unlockUser/'+${user.id}} : @{'/lockUser/'+${user.id}} " th:class="${user.locked}? 'btn btn-primary': 'btn btn-warning'"><i th:class="${user.locked}? 'fa fa-user' : 'fas fa-user-times'"></i></a>
-                            -->
+                            <button 
+                                type="button" 
+                                th:class="${user.locked}? 'btn btn-primary': 'btn btn-warning'"
+                                th:onclick="' javascript:confirmAction(\'' + ${user.id} + '\',\'' + ${user.locked} + '\'); ' " 
+                                data-toggle="modal" 
+                                data-target="#lockModal">
+                                <i th:class="${user.locked}? 'fa fa-user' : 'fas fa-user-times'"></i>
+                            </button> 
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>      
-     <!----><div th:include="user-form/confirm-delete-modal.html" th:remove="tag"></div>
+        </div>    
+        <script >
+            function confirmAction(id,lock) {
+                document.getElementById("userIdHidden").value = id;
+                document.getElementById("userLockHidden").value = lock;
+                if (lock=='true') {
+                    document.getElementById("btnlock").innerHTML="Desbloquear";
+                } else {
+                    document.getElementById("btnlock").innerHTML="Dar de Baja";
+                }    
+            }
+            function deleteUser() {
+                var id = document.getElementById("userIdHidden").value;
+                window.location = "/userDelete/"+ id;
+            }
+            function lockUser() {
+                var id = document.getElementById("userIdHidden").value;
+                var lock = document.getElementById("userLockHidden").value;
+                if (lock=='true') {
+                    window.location = "/unlockUser/"+ id;
+                } else {
+                   window.location = "/lockUser/"+ id; 
+                }
+            }    
+            
+        </script>  
+        <div th:include="user-form/confirm-delete-modal.html" th:remove="tag"></div>
 
         
      <script type="text/javascript" src="/js/jquery-3.2.1.slim.min.js"></script>

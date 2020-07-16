@@ -43,22 +43,67 @@ public class UserController {
         return "user-form/user-list";
     }
 
+    
+
     @GetMapping("/userRegister")
-    public String userForm(Model model) {
+    public String userRegister(Model model) {
         model.addAttribute("userForm", new User());
         model.addAttribute("roleList", roleRepository.findAll());
         model.addAttribute("myRole", new Role());
+        model.addAttribute("userRegisterMode", true);
         return "user-form/user-register";
     }
 
     @PostMapping("/userRegister")
-    public String userForm(@Valid   @ModelAttribute("userForm") User user, BindingResult result, ModelMap model, 
+    public String userRegister(@Valid   @ModelAttribute("userForm") User user, BindingResult result, ModelMap model, 
                                     @ModelAttribute("myRole")Role myRole) {
         
         if (result.hasErrors()) {
             model.addAttribute("userForm", user);
             model.addAttribute("roleList", roleRepository.findAll());
             model.addAttribute("myRole", new Role());
+            model.addAttribute("userRegisterMode", true);
+            return "user-form/user-register";
+        } else {
+            try {
+                //user.setId(null);
+                if (user.getRoles()==null) {
+                    user.setLocked(false);
+                    user.setRoles(roleRepository.findByNombre("estudiante") );
+                    userService.createUser(user);
+                } else {
+                    user.setLocked(false);
+                    user.setRoles(roleRepository.findById( user.getRoles().getId()) );
+                    userService.createUser(user);
+                }
+                
+            } catch (Exception e) {
+                model.addAttribute("errorMessage",e.getMessage());
+                model.addAttribute("userForm", user);
+                model.addAttribute("roleList", roleRepository.findAll());
+                model.addAttribute("myRole", new Role());
+                model.addAttribute("userRegisterMode", true);
+                return "user-form/user-register";
+            }
+        }
+        return "user-form/login";
+    }
+
+    @GetMapping("/adminRegister")
+    public String adminRegister(Model model) {
+        model.addAttribute("userForm", new User());
+        model.addAttribute("roleList", roleRepository.findAll());
+        model.addAttribute("adminRegisterMode", true);
+        return "user-form/user-register";
+    }
+
+    @PostMapping("/adminRegister")
+    public String adminRegister(@Valid   @ModelAttribute("userForm") User user, BindingResult result, ModelMap model) {
+        
+        if (result.hasErrors()) {
+            model.addAttribute("userForm", user);
+            model.addAttribute("roleList", roleRepository.findAll());
+            model.addAttribute("adminRegisterMode", true);
             return "user-form/user-register";
         } else {
             try {
@@ -70,11 +115,11 @@ public class UserController {
                 model.addAttribute("errorMessage",e.getMessage());
                 model.addAttribute("userForm", user);
                 model.addAttribute("roleList", roleRepository.findAll());
-                model.addAttribute("myRole", new Role());
+                model.addAttribute("adminRegisterMode", true);
                 return "user-form/user-register";
             }
         }
-        return "user-form/login";
+        return "/userList";
     }
 
     @GetMapping("/userEdit/{id}")
@@ -85,6 +130,7 @@ public class UserController {
         model.addAttribute("userEditMode", true);
         model.addAttribute("roleList", roleRepository.findAll());
         model.addAttribute("myRole", new Role());
+        model.addAttribute("adminRegisterMode", true);
         return "user-form/user-register";
     }
 
@@ -96,6 +142,7 @@ public class UserController {
             model.addAttribute("userEditMode", true);
             model.addAttribute("roleList", roleRepository.findAll());
             model.addAttribute("myRole", new Role());
+            model.addAttribute("adminRegisterMode", true);
             return "user-form/user-register";
         }
         try {
@@ -108,6 +155,7 @@ public class UserController {
             model.addAttribute("errorMessage",e.getMessage());
             model.addAttribute("userForm", userFrom);
             model.addAttribute("userEditMode", true);
+            model.addAttribute("adminRegisterMode", true);
             model.addAttribute("roleList", roleRepository.findAll());
             return "user-form/user-register";
         }
